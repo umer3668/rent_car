@@ -1,0 +1,150 @@
+ #include <conio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+/*****************------ Structures ----------------------************** */ 
+struct info_t{
+	char name[100];
+	char type[40];
+	char city[40];
+	 char price[10] ;
+	 int convertprice ;
+	
+};
+
+/*****************------  Function Protypes ----------------------************** */ 
+
+
+void CarsData() ; 
+void fnPrintLine() ;
+void fnSpaceLine();
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ int main() {
+
+printf("\n\n\t\t\t______________________");
+printf("\n\n\t\t\tWelcome to Buy And Sell");
+printf("\n\n\t\t\t______________________\n");
+CarsData();
+}
+ void CarsData() {
+		struct info_t  *cars;
+	FILE *ptr_file;
+	char buf[5000];
+	int i=0 , m ;
+	int j ;	
+	int count_data_car ;
+	int userchoice ;  // through user choice we get if user search item by city or by brand ;
+	char brandchoice[10]; // brand choice is comapny brand ;
+	char CarChoice[10];
+	const char s[2] = ",";
+    char *token;
+    // Allocates the memory for noOfRecords structures with pointer ptr pointing to the base address.
+   cars = (struct info_t*) malloc (1000 * sizeof(struct info_t));
+   if (cars==NULL){
+   	printf("Error in Malloc");
+   }
+
+
+	ptr_file =fopen("CARS-CSV.csv","r");
+	if (!ptr_file)
+    	printf("Invlid path");
+    	
+   
+  //////////// Get Dataa From File ///////////////////////	
+	while (fgets(buf,5000, ptr_file)!=NULL) {
+		token = strtok(buf, s);
+		strcpy ((cars+i)->name,token);
+		token = strtok(NULL, s);
+		strcpy ((cars+i)->type,token);
+		token = strtok(NULL, s);
+		strcpy ((cars+i)->city,token);
+		token = strtok(NULL, s);
+     	strcpy ( (cars+i)->price, token);
+     	//(mobiles+i)->convertprice =  atoi( (mobiles+i)->price);
+     	(cars+i)->convertprice =  atoi( (cars+i)->price);
+        // atof( (pet+i)->price);
+		i++;
+		m++ ;
+	} 
+   
+	printf("\nYou Want to Search by Brand or City ? ");
+	printf("\nType 1 for Brand and 2 for City>>> ");
+	scanf(" %d",&userchoice);
+	if (userchoice==1){
+		printf("\n\n\n\n\n\nEnter The Brand Name you Want ");
+		printf ("Start First Latter with Capital>>> ");
+		scanf("%s",&brandchoice);
+		for (j=0 ;j<i ; j++){
+		if (strcmp(brandchoice,(cars+j)->type)== 0 ){  //(strcmp(brandchoice,(mobiles+j)->type)== 0 )
+			printf("\nMobile Name : %s  ",(cars+j)->name);
+			printf("\nMobile Type  : %s ",(cars+j)->type);
+			printf("\nMobile City  : %s  ",(cars+j)->city);
+			printf("\nMobile Price : %d  ", (cars+j)->convertprice);
+			
+			printf("\n\n\n"); 
+			fnPrintLine();
+			count_data_car ++ ;
+		}
+	}
+	if (count_data_car==0){
+		printf("Item Not Found By This Brand");
+	}
+	} 
+	 if (userchoice==2){
+				//////////////
+		printf("\n\n\n\n\n\nStart First Letter with Capital>>>");		
+		printf("\nEnter The City Name You Want to buy? "); 
+		//gets(PetsChoice);
+	scanf("%s",&CarChoice);
+	count_data_car = 0 ;
+	for (j=0 ;j<i ; j++) {
+		if (strcmp(CarChoice,(cars+j)->city)== 0 ) {
+			printf("\nMobile Name : %s  ",(cars+j)->name);
+			printf("\nMobile Type  : %s ",(cars+j)->type);
+			printf("\nMobile City  : %s  ",(cars+j)->city);
+			printf("\nMobile Price : %d  ", (cars+j)->convertprice);
+			
+			printf("\n\n\n"); 
+			fnPrintLine();
+			count_data_car++ ;
+		}	
+		
+	}
+	if (count_data_car==0){
+		printf("Sorry We Have not Desired Item ");
+	}
+
+}	
+
+}   
+
+   
+   
+   
+
+void fnPrintLine()
+{ int j;
+for(j=0;j<60;j++)
+printf("*");
+}
+
+
